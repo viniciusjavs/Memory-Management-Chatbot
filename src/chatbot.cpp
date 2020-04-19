@@ -12,56 +12,7 @@
 ChatBot::ChatBot(std::string filename) {
   std::cout << "ChatBot Constructor" << '\n';
   // load image into heap memory
-  _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
-}
-
-ChatBot::~ChatBot() {
-  std::cout << "ChatBot Destructor" << '\n';
-  // deallocate heap memory
-  delete _image;
-}
-
-ChatBot::ChatBot(const ChatBot &source)
-    : _currentNode{source._currentNode}, _rootNode{source._rootNode},
-      _chatLogic{source._chatLogic} {
-  std::cout << "ChatBot Copy Constructor\n";
-  if (source._image)
-    _image = new wxBitmap{*source._image};
-}
-
-ChatBot &ChatBot::operator=(const ChatBot &source) {
-  std::cout << "ChatBot Assignment Operator\n";
-  wxBitmap *image{nullptr};
-  if (source._image)
-    image = new wxBitmap{*source._image};
-  delete _image;
-  _image = image;
-  // data handles
-  _currentNode = source._currentNode;
-  _rootNode = source._rootNode;
-  _chatLogic = source._chatLogic;
-  return *this;
-}
-
-ChatBot::ChatBot(ChatBot &&source)
-    : _image{source._image}, _currentNode{source._currentNode},
-      _rootNode{source._rootNode}, _chatLogic{source._chatLogic} {
-  std::cout << "ChatBot Move Constructor\n";
-  source._image = nullptr;
-}
-
-ChatBot &ChatBot::operator=(ChatBot &&source) {
-  std::cout << "ChatBot Move Assignment Operator\n";
-  if (this == &source)
-    return *this;
-  delete _image;
-  _image = source._image; // reassign resource
-  source._image = nullptr;
-  // data handles
-  _currentNode = source._currentNode;
-  _rootNode = source._rootNode;
-  _chatLogic = source._chatLogic;
-  return *this;
+  _image = std::make_unique<wxBitmap>(filename, wxBITMAP_TYPE_PNG);
 }
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
