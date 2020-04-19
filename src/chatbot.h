@@ -4,8 +4,9 @@
 #include <wx/bitmap.h>
 #include <string>
 
+#include "chatlogic.h"
+
 class GraphNode; // forward declaration
-class ChatLogic; // forward declaration
 
 class ChatBot
 {
@@ -23,7 +24,7 @@ private:
 
 public:
   // constructors / destructors
-  ChatBot() = default;           // constructor WITHOUT memory allocation
+  ChatBot();                     // constructor WITHOUT memory allocation
   ChatBot(std::string filename); // constructor WITH memory allocation
   ~ChatBot();
   ChatBot(const ChatBot &source);
@@ -35,6 +36,7 @@ public:
     void SetCurrentNode(GraphNode *node);
     void SetRootNode(GraphNode *rootNode) { _rootNode = rootNode; }
     void SetChatLogicHandle(ChatLogic *chatLogic) { _chatLogic = chatLogic; }
+    ChatLogic *GetChatLogicHandle() const { return _chatLogic; }
     wxBitmap *GetImageHandle() { return _image; }
 
     // communication
